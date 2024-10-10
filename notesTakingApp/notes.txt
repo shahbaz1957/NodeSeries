@@ -1,0 +1,59 @@
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+1. app.use(express.json())
+
+	•	Purpose: This middleware parses incoming requests with a JSON payload.
+	•   Usage: It helps your Express application understand incoming requests with          Content-Type: application/json.
+	•	Without this middleware, your app wouldn’t be able to parse JSON data in the body of the request.
+
+    Example:
+    If you send a POST request with a JSON body like this:
+    {
+        "name": "John",
+        "age": 30
+    }
+    The express.json() middleware will parse the body of the request and attach it to req.body. So, in your route handler, you can access the parsed JSON like this:
+
+    app.post('/user', (req, res) => {
+        console.log(req.body.name); // "John"
+        console.log(req.body.age);  // 30
+    });
+
+
+
+
+2. app.use(express.urlencoded({ extended: true }))
+
+	•	Purpose: This middleware parses incoming requests with Content-Type: application/x-www-form-urlencoded (i.e., form data).
+	•	Usage: This is used to handle form submissions (like a login form) where data is submitted via the URL-encoded format. Forms in HTML by default send data in this format.
+
+    Option { extended: true }:
+
+	•	If extended is set to true, it allows the use of complex data types such as arrays and objects in the URL-encoded format.
+	•	If extended is set to false, it handles only strings and arrays, making it more lightweight.
+
+    Example:
+    When a form submits data like this:
+
+        <form action="/user" method="POST">
+        <input type="text" name="name" value="John">
+        <input type="number" name="age" value="30">
+        <button type="submit">Submit</button>
+        </form>
+
+    The express.urlencoded() middleware will parse the data from the form submission, and you’ll be able to access it in req.body like this:
+
+    app.post('/user', (req, res) => {
+         console.log(req.body.name); // "John"
+         console.log(req.body.age);  // 30
+    });       
+
+
+
+    Summary:
+
+	•	express.json() parses JSON payloads.
+	•	express.urlencoded() parses URL-encoded payloads (typically from HTML forms).
+
+    Both of these middlewares are essential when building APIs or handling form submissions to ensure that the server can parse and understand incoming data.   
